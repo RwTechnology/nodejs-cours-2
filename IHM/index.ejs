@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+</head>
+
+<body>
+    <div style="width: 50%; margin: auto;">
+        <%- include('./components/navigation.ejs') %>
+        <section>
+            <form action="">
+                <div>
+                    <label for="titre">Titre</label>
+                    <input type="text" name="titre" placeholder="Titre">
+                </div>
+                <div>
+                    <label for="description">Description</label> <br>
+                    <textarea name="description" id="description" cols="20" rows="5"></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Enregistrer">
+                </div>
+            </form>
+            <p>
+                -------------------------------------------------------------------
+            </p>
+        </section>
+        <section>
+            <h2>Liste des notes</h2>
+            <ul>
+                <% notes.forEach(function(note){ %>
+                  <li><%= note.titre + ' : ' + note.description %></li>
+                <% }); %>
+              </ul> 
+        </section>
+    </div>
+</body>
+
+</html>
