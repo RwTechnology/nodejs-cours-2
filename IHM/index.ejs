@@ -11,33 +11,58 @@
 <body>
     <div style="width: 50%; margin: auto;">
         <%- include('./components/navigation.ejs') %>
-        <section>
-            <form action="">
-                <div>
-                    <label for="titre">Titre</label>
-                    <input type="text" name="titre" placeholder="Titre">
-                </div>
-                <div>
-                    <label for="description">Description</label> <br>
-                    <textarea name="description" id="description" cols="20" rows="5"></textarea>
-                </div>
-                <div>
-                    <input type="submit" value="Enregistrer">
-                </div>
-            </form>
-            <p>
-                -------------------------------------------------------------------
-            </p>
-        </section>
-        <section>
-            <h2>Liste des notes</h2>
-            <ul>
-                <% notes.forEach(function(note){ %>
-                  <li><%= note.titre + ' : ' + note.description %></li>
-                <% }); %>
-              </ul> 
-        </section>
+            <section>
+                <form action="/note" method="post">
+                    <input type="hidden" name="id" id="id">
+                    <div>
+                        <label for="titre">Titre</label>
+                        <input type="text" name="titre" placeholder="Titre" id="titre">
+                    </div>
+                    <div>
+                        <label for="description">Description</label> <br>
+                        <textarea name="description" id="description" cols="20" rows="5"></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" value="Enregistrer">
+                    </div>
+                </form>
+                <p>
+                    -------------------------------------------------------------------
+                </p>
+            </section>
+            <section>
+                <h2>Liste des notes</h2>
+                <% resultat.forEach(function(item){ %>
+                    <h3>
+                        <%=item.titre %>
+                    </h3>
+                    <p>
+                        <%=item.description %>
+                    </p>
+                    <input type="button" value="Supprimer" onclick="supprimer('<%=item.id %>')">
+                    <input type="button" value="Modifier" onclick="remplirDonnees('<%=item.id %>','<%=item.titre %>','<%=item.description %>')">
+                    <% }); %>
+            </section>
     </div>
 </body>
+<script>
+    const remplirDonnees=(id,titre,description)=>{
+        document.querySelector('#id').value=id;
+        document.querySelector('#titre').value=titre;
+        document.querySelector('#description').value=description;
+    }
+
+    function supprimer(id) {
+        let pointFinal = "notes/" + id
+        fetch(
+            pointFinal, {method : "DELETE"}
+        ).then(
+            (reponse)=> reponse.json()
+        ).then(
+            (donnee)=> window.location.href = donnee.routeRacine
+        ).catch((erreur)=> console.log(erreur))
+        
+    }
+</script>
 
 </html>
